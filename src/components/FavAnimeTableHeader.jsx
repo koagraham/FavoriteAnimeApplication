@@ -2,6 +2,7 @@
 export default function FavAnimeTableHeader() {
     return (
         <tr>
+            <th></th>
             <th>Rank</th>
             <th>Title</th>
         </tr>

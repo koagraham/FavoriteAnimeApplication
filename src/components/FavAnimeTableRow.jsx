@@ -2,6 +2,7 @@
 import RankCell from "./RankCell.jsx";
 import RowButtons from "./RowButtons.jsx";
 import TitleCell from "./TitleCell.jsx";
+import AnimeImage from "./FavAnimeImages.jsx"
 import axios from 'axios'
 import { useState } from 'react'
 
@@ -40,6 +41,7 @@ export default function FavAnimeTableRow({ animeListData, initialIsEditing, onDe
             <TitleCell value={title} 
             isEditing={isEditing}
             onValueChange={setTitle}/>
+            <AnimeImage title={title}/>
         </tr>
     )
 }

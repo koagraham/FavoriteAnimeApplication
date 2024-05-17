@@ -2,8 +2,10 @@
 import FavAnimeTableHeader from "./FavAnimeTableHeader.jsx"
 import FavAnimeTableRow from "./FavAnimeTableRow.jsx"
 import FavAnimeAddButton from "./FavAnimeAddButton.jsx"
+import FavAnimeImages from "./FavAnimeImages.jsx"
 import axios from 'axios'
 import { useState } from 'react'
+import './FavAnimeTable.css'
 
 //main component
 export default function FavAnimeTable({ initialAnimeList }) {
@@ -31,7 +33,8 @@ export default function FavAnimeTable({ initialAnimeList }) {
     }
 
     //create table rows based on anime list
-    const rows = animeList.map(({ id, rank, title, isEditing }) => (
+    const sortedAnimeList = animeList.slice().sort((a, b) => a.rank - b.rank);
+    const rows = sortedAnimeList.map(({ id, rank, title, isEditing }) => (
         <FavAnimeTableRow 
         key={id}
         animeListData={{ id, rank, title }}
@@ -39,7 +42,6 @@ export default function FavAnimeTable({ initialAnimeList }) {
         onDeleteRow={() => deleteRow(id)}/>
     ))
 
-    //return html
     return (
         <table>
             <thead>
