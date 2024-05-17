@@ -4,7 +4,7 @@ import FavAnimeTableRow from "./FavAnimeTableRow.jsx"
 import FavAnimeAddButton from "./FavAnimeAddButton.jsx"
 import FavAnimeImages from "./FavAnimeImages.jsx"
 import axios from 'axios'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './FavAnimeTable.css'
 
 //main component
@@ -12,6 +12,7 @@ export default function FavAnimeTable({ initialAnimeList }) {
 
     //declate state variables
     const [animeList, setAnimeList] = useState(initialAnimeList)
+    const [realAnimeList, setRealAnimeList] = useState(initialAnimeList)
 
     //add anime entry function
     const addRow = async () => {
@@ -32,8 +33,10 @@ export default function FavAnimeTable({ initialAnimeList }) {
         }
     }
 
-    //create table rows based on anime list
+    //ensure the table is updated whenever animelList changes
     const sortedAnimeList = animeList.slice().sort((a, b) => a.rank - b.rank);
+
+    //create table rows based on anime list
     const rows = sortedAnimeList.map(({ id, rank, title, isEditing }) => (
         <FavAnimeTableRow 
         key={id}

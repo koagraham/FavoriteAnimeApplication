@@ -15,7 +15,6 @@ const AnimeImage = ({ title }) => {
             'Content-Type': 'application/json',
             Accept: 'application/json',
           },
-          //mode: 'no-cors',
           body: JSON.stringify({
             query: `
               query ($title: String) {

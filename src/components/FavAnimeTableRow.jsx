@@ -37,7 +37,9 @@ export default function FavAnimeTableRow({ animeListData, initialIsEditing, onDe
             onEditClick={setEditMode} 
             onSaveClick={setNormalMode}
             onDeleteClick={onDeleteRow}/>
-            <RankCell value={rank}/>
+            <RankCell value={rank}
+            isEditing={isEditing}
+            onValueChange={setRank}/>
             <TitleCell value={title} 
             isEditing={isEditing}
             onValueChange={setTitle}/>
