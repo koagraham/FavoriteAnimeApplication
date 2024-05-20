@@ -2,7 +2,6 @@
 import FavAnimeTableHeader from "./FavAnimeTableHeader.jsx"
 import FavAnimeTableRow from "./FavAnimeTableRow.jsx"
 import FavAnimeAddButton from "./FavAnimeAddButton.jsx"
-import FavAnimeImages from "./FavAnimeImages.jsx"
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import './FavAnimeTable.css'
@@ -12,12 +11,13 @@ export default function FavAnimeTable({ initialAnimeList }) {
 
     //declate state variables
     const [animeList, setAnimeList] = useState(initialAnimeList)
-    const [realAnimeList, setRealAnimeList] = useState(initialAnimeList)
+    //const [rows, setRows] = useState()
+    
 
     //add anime entry function
     const addRow = async () => {
         const { data } = await axios.post('http://localhost:8001/api/anime', { title: 'Anime Title'});
-        const newAnime = { ...data, isEditing: true };
+        const newAnime = { ...data, isEditing: false };
         setAnimeList([...animeList, newAnime]);
       }
     
@@ -33,18 +33,42 @@ export default function FavAnimeTable({ initialAnimeList }) {
         }
     }
 
-    //ensure the table is updated whenever animelList changes
-    const sortedAnimeList = animeList.slice().sort((a, b) => a.rank - b.rank);
+    //initial sorting and rendering
 
-    //create table rows based on anime list
-    const rows = sortedAnimeList.map(({ id, rank, title, isEditing }) => (
+    let sortedAnimeList = animeList.slice().sort((a, b) => a.rank - b.rank);
+
+    let rows = sortedAnimeList.map(({ id, rank, title, img, isEditing }) => (
         <FavAnimeTableRow 
         key={id}
-        animeListData={{ id, rank, title }}
+        animeListData={{ id, rank, title, img }}
         initialIsEditing={isEditing}
+        setAnimeListData={setAnimeList}
         onDeleteRow={() => deleteRow(id)}/>
     ))
 
+    useEffect(() => {
+        //sort the list based on rankings
+        console.log('List: ');
+        console.log(animeList);
+        const sortedAnimeList = animeList.slice().sort((a, b) => a.rank - b.rank);
+        console.log('Sorted List: ');
+        console.log(sortedAnimeList);
+
+        //console.log(`ID: ${id} rank: ${rank} img: ${img}`);
+        //create table rows based on anime list
+        rows = sortedAnimeList.map(({ id, rank, title, img, isEditing }) => (
+            <FavAnimeTableRow 
+            key={id}
+            animeListData={{ id, rank, title, img }}
+            initialIsEditing={isEditing}
+            onDeleteRow={() => deleteRow(id)}
+            setAnimeListData={setAnimeList}/>
+        ))
+
+        //setRows(newRows)
+
+    }, animeList)
+    
     return (
         <table>
             <thead>
